@@ -4,8 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- The parent supplies tested, compatible versions for hundreds of libraries,
-         so below we can declare a dependency WITHOUT a <version>. -->
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -13,7 +12,6 @@
         <relativePath/>
     </parent>
 
-    <!-- This project's own identity (like a package name for the built jar). -->
     <groupId>com.satyam</groupId>
     <artifactId>job-tracker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -25,7 +23,7 @@
     </properties>
 
     <dependencies>
-        <!-- Embedded Tomcat + Spring MVC + JSON support: everything needed for a REST API. -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -34,7 +32,6 @@
 
     <build>
         <plugins>
-            <!-- Adds `mvn spring-boot:run` and packages a runnable fat jar. -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

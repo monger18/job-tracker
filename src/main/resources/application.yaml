@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: job-tracker
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/jobtracker
+    username: jobtracker
+    password: jobtracker
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    locations: classpath:db/migration
+
+management:
+  endpoint:
+    health:
+      show-details: always

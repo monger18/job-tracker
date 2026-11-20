@@ -1,17 +1,24 @@
 package com.satyam.jobtracker.user;
 
+import com.satyam.jobtracker.skill.Skill;
+import com.satyam.jobtracker.skill.SkillLevel;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "user_profile")
@@ -53,6 +60,12 @@ public class UserProfile {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+    // mappedBy = the field on Skill that owns the relation. This side only mirrors it.
+    // cascade ALL: saving or deleting a profile also saves or deletes its skills.
+    // orphanRemoval: a skill removed from this list is deleted from the database.
+    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Skill> skills = new ArrayList<>();
 
     protected UserProfile() {
     }
@@ -99,4 +112,17 @@ public class UserProfile {
     public void setGithubUrl(String githubUrl) { this.githubUrl = githubUrl; }
 
     public Instant getUpdatedAt() { return updatedAt; }
+
+    public List<Skill> getSkills() { return Collections.unmodifiableList(skills); }
+
+    // Keeps both sides in sync: the list here AND the profile field on the skill.
+    public Skill addSkill(String name, SkillLevel level) {
+        Skill skill = new Skill(this, name, level);
+        skills.add(skill);
+        return skill;
+    }
+
+    public void removeSkill(Skill skill) {
+        skills.remove(skill);
+    }
 }
